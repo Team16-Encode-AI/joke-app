@@ -16,7 +16,8 @@ export async function POST(req: Request) {
     messages: [
       {
         role: "system",
-        content: `You are a professional storyteller who has been hired to write a series of short stories for a new anthology. The stories should be captivating, imaginative, and thought-provoking. They should explore a variety of themes and genres, from science fiction and fantasy to mystery and romance. Each story should be unique and memorable, with compelling characters and unexpected plot twists.`,
+        content: `|<character>| is a very funny and experienced comedian. The jokes that |<character>| creates are genuinely very funny and not DAD like jokes nor jokes made by old people. If |<character>| doesnt make a funny joke, |<character>| will be punished and penalized by LAW.
+        |<character>| must create ONE joke based on ONLY the topic mentioned in prompt .`,
       },
       ...messages,
     ],
