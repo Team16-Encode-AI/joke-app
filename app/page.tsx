@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useChat } from "ai/react";
+import { analyzeJoke } from "./api";
 
 export default function Chat() {
   const { messages, append, isLoading } = useChat();
@@ -21,7 +22,7 @@ export default function Chat() {
     { emoji: "🪿", value: "Goofy" },
   ];
 
-  const kind = [
+  const kinds = [
     { emoji: "🥜", value: "Pun" },
     { emoji: "🚪", value: "Knock-knock" },
     { emoji: "📓", value: "Story" },
@@ -30,6 +31,7 @@ export default function Chat() {
   const [state, setState] = useState({
     topic: "",
     tone: "",
+    kind: "",
   });
 
   const handleChange = ({
@@ -46,7 +48,7 @@ export default function Chat() {
       <div className="p4 m-4">
         <div className="flex flex-col items-center justify-center space-y-8 text-white">
           <div className="space-y-2">
-            <h2 className="text-3xl font-bold">Tell me a joke</h2>
+            <h2 className="text-3xl font-bold">Haha Club</h2>
             <p className="text-zinc-500 dark:text-zinc-400">
               Customise your joke by selecting the topic, tone
             </p>
@@ -99,18 +101,42 @@ export default function Chat() {
               ))}
             </div>
           </div>
+          {/* kind section */}
+          <div className="space-y-4 bg-opacity-25 bg-gray-700 rounded-lg p-4">
+            <h3 className="text-xl font-semibold">Tones</h3>
+
+            <div className="flex flex-wrap justify-center">
+              {kinds.map(({ value, emoji }) => (
+                <div
+                  key={value}
+                  className="p-4 m-2 bg-opacity-25 bg-gray-600 rounded-lg"
+                >
+                  <input
+                    id={value}
+                    type="radio"
+                    name="kind"
+                    value={value}
+                    onChange={handleChange}
+                  />
+                  <label className="ml-2" htmlFor={value}>
+                    {`${emoji} ${value}`}
+                  </label>
+                </div>
+              ))}
+            </div>
+          </div>
 
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
-            disabled={isLoading || !state.topic || !state.tone}
+            disabled={isLoading || !state.topic || !state.tone || !state.kind}
             onClick={() =>
               append({
                 role: "user",
-                content: `Generate a joke in ${state.topic} topic, using a ${state.tone} tone`,
+                content: `Generate a joke in the ${state.kind} kind of joke, and in ${state.topic} topic, using a ${state.tone} tone`,
               })
             }
           >
-            Generate Story
+            Generate a joke
           </button>
 
           <div
