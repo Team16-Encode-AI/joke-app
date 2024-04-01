@@ -1,10 +1,14 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+<img width="793" alt="Screenshot 2024-04-01 at 14 32 54" src="https://github.com/Team16-Encode-AI/joke-app/assets/128807685/66562a5a-8335-4a46-a28e-6941b1790775">
 
 ## Getting Started
 
-First, run the development server:
-
-```bash
+Run npm install to install all dependencies.
+Add a .env file to the root folder and include OPENAI_API_KEY=xxxxxxxx. This web app is using a local server (no OpenAI API) but requires shared variables, so the app only works with the .env file in place.
+```
+Run the development server:
+bash
+Copy code
 npm run dev
 # or
 yarn dev
@@ -13,24 +17,33 @@ pnpm dev
 # or
 bun dev
 ```
+Open http://localhost:3000 in your browser to see the result.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Model:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```mistralai/Mistral-7B-v0.1```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Functionalities:
 
-## Learn More
+Customize the joke by selecting:
 
-To learn more about Next.js, take a look at the following resources:
+1. Topics (work, people, animal, food, television)
+2. Tones (witty, sarcastic, silly, dark, goofy)
+3. Kinds (pun, knock-knock, story)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Prompts:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- Attempts to prevent generating "Dad jokes" and penalizes if the joke is not funny. However, it is assumed that the level of funniness is measurable.
+```
+|<character>| is a very funny and experienced comedian. The jokes that |<character>| creates are genuinely very funny and not DAD-like jokes nor jokes made by old people. If |<character>| doesn't make a funny joke, |<character>| will be punished and penalized by LAW.
+|<character>| must create ONE joke based ONLY on the topic mentioned in the prompt.
+```
 
-## Deploy on Vercel
+- Stop AI from trying to explain the reason for the joke it generated. It appears to be a common behavior of the Mistral 7B model to overexplain the joke.
+```
+Do not make any comments after the joke. Do not include action words or responses that are supposed to be an expected reaction to the joke.
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Improvements if we had more time:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+We have not implemented a feature for the AI to evaluate if the generated jokes are funny, appropriate, or offensive. We will keep exploring sentiment analysis tools specialized in analyzing jokes.
